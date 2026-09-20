@@ -7,52 +7,58 @@
 
 <style>
 body{
-    background:#0d0d0d;
-    color:white;
-    font-family:Arial, sans-serif;
-    margin:0;
-    padding:0;
-    text-align:center;
+background:#0d0d0d;
+color:white;
+font-family:Arial,sans-serif;
+text-align:center;
+margin:0;
 }
 
 header{
-    padding:30px 20px;
+padding:20px;
 }
 
 .logo{
-    width:90%;
-    max-width:900px;
-    margin:auto;
-    display:block;
+width:90%;
+max-width:800px;
+display:block;
+margin:20px auto;
 }
 
 h1{
-    color:#00cc44;
-    margin-top:20px;
-}
-
-.subtitulo{
-    color:#cfcfcf;
-    font-size:18px;
+color:#00cc44;
 }
 
 .card{
-    background:#1a1a1a;
-    margin:20px auto;
-    padding:20px;
-    border-radius:12px;
-    max-width:900px;
+background:#1a1a1a;
+margin:20px auto;
+padding:20px;
+border-radius:10px;
+max-width:900px;
 }
 
-.card h2{
-    color:#00cc44;
+input{
+padding:10px;
+margin:5px;
+width:120px;
+border-radius:5px;
+border:none;
+}
+
+button{
+background:#00cc44;
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:5px;
+font-weight:bold;
 }
 
 footer{
-    background:#111;
-    margin-top:40px;
-    padding:20px;
-    color:#aaa;
+margin-top:30px;
+padding:20px;
+background:#111;
+color:#aaa;
 }
 </style>
 </head>
@@ -61,24 +67,80 @@ footer{
 
 <header>
 
-7EB3DF80-14F9-451F-B47C-B1F40225729A.png
+./7EB3DF80-14F9-451F-B47C-B1F40225729A.png
 
 <h1>CF USINAGEM</h1>
 
-<p class="subtitulo">
+<p>
 Soluções Inteligentes para Processos de Usinagem CNC
 </p>
 
 </header>
-7EB3DF80-14F9-451F-B47C-B1F40225729A.png
+
 <div class="card">
 
-<h2>Bem-vindo</h2>
+<h2>Calculadora de RPM</h2>
+
+<p>Velocidade de Corte (Vc m/min)</p>
+<input id="vc" type="number">
+
+<p>Diâmetro (mm)</p>
+<input id="diametro" type="number">
+
+<br><br>
+
+<button onclick="calcularRPM()">
+Calcular RPM
+</button>
+
+<h3 id="resultado"></h3>
+
+</div>
+
+<div class="card">
+
+<h2>Biblioteca Inicial</h2>
+
+<p>✅ Haas VF-5</p>
+<p>✅ Haas VF-7</p>
+<p>✅ Haas ST-30</p>
+<p>✅ Haas ST-30Y</p>
+<p>✅ Siemens 826D</p>
+<p>✅ Siemens 828D</p>
+<p>✅ Siemens 840D</p>
+
+<hr>
+
+<p>✅ SAE 1020</p>
+<p>✅ SAE 1045</p>
+<p>✅ SAE 4140</p>
+<p>✅ Inox 304</p>
+<p>✅ Inox 316</p>
+<p>✅ Alumínio 6061</p>
+<p>✅ Alumínio 7075</p>
+
+<hr>
+
+<p>✅ Sandvik</p>
+<p>✅ Seco</p>
+<p>✅ Tungaloy</p>
+<p>✅ Walter</p>
+<p>✅ ISCAR</p>
+<p>✅ Kennametal</p>
+
+</div>
+
+<div class="card">
+
+<h2>Sobre</h2>
 
 <p>
 Sistema desenvolvido por
-<b>Claudio Farley de Oliveira</b>,
-estudante da FATEC.
+<b>Claudio Farley de Oliveira</b>.
+</p>
+
+<p>
+Estudante da FATEC.
 </p>
 
 <p>
@@ -87,36 +149,32 @@ Projeto criado para fins de estudo e melhoria contínua dos processos de usinage
 
 </div>
 
-<div class="card">
+<footer>
 
-<h2>Funcionalidades Planejadas</h2>
+CF USINAGEM © 2026
 
-<p>✅ Cadastro de usuários</p>
-<p>✅ Aprovação pelo administrador</p>
-<p>✅ Cadastro de materiais</p>
-<p>✅ Cadastro de máquinas CNC</p>
-<p>✅ Cadastro de ferramentas</p>
-<p>✅ Simulador de usinagem</p>
-<p>✅ Cálculo de RPM</p>
-<p>✅ Velocidade de corte (Vc)</p>
-<p>✅ Cálculo de avanço</p>
-<p>✅ Tempo estimado de usinagem</p>
-<p>✅ Diagnóstico de cavacos</p>
-<p>✅ Sugestão de melhorias de processo</p>
+<br><br>
 
-</div>
+Desenvolvido por Claudio Farley de Oliveira
 
-<div class="card">
+</footer>
 
-<h2>Biblioteca Inicial</h2>
+<script>
 
-<p>
-Haas VF-5 • Haas VF-7 • Haas ST-30 • Haas ST-30Y
-</p>
+function calcularRPM(){
 
-<p>
-Siemens 826D • Siemens 828D • Siemens 840D
-</p>
+let vc =
+parseFloat(
+document.getElementById("vc").value
+);
 
-<p>
-SAE 1020 • SAE 1045 • SAE 4140 • Inox 304 • Inox 316 • Alumínio 7075
+let d =
+parseFloat(
+document.getElementById("diametro").value
+);
+
+let rpm =
+(1000*vc)/(Math.PI*d);
+
+document.getElementById("resultado").innerHTML =
+"RPM = " + rpm.toFixed
