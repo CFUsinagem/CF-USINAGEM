@@ -6,60 +6,74 @@
 <title>CF USINAGEM</title>
 
 <style>
+
 body{
-background:#0d0d0d;
-color:white;
-font-family:Arial,sans-serif;
-text-align:center;
-margin:0;
+    margin:0;
+    background:#0a0a0a;
+    color:white;
+    font-family:Arial,sans-serif;
+    text-align:center;
 }
 
 header{
-padding:20px;
+    padding:20px;
 }
 
 .logo{
-width:90%;
-max-width:800px;
-display:block;
-margin:20px auto;
+    width:90%;
+    max-width:700px;
+    display:block;
+    margin:auto;
 }
 
 h1{
-color:#00cc44;
+    color:#00cc44;
 }
 
 .card{
-background:#1a1a1a;
-margin:20px auto;
-padding:20px;
-border-radius:10px;
-max-width:900px;
+    background:#181818;
+    max-width:900px;
+    margin:20px auto;
+    padding:20px;
+    border-radius:12px;
 }
 
 input{
-padding:10px;
-margin:5px;
-width:120px;
-border-radius:5px;
-border:none;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    width:150px;
+    text-align:center;
 }
 
 button{
-background:#00cc44;
-color:white;
-padding:10px 20px;
-border:none;
-border-radius:5px;
-font-weight:bold;
+    background:#00cc44;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#00aa38;
+}
+
+.resultado{
+    font-size:22px;
+    color:#00cc44;
+    margin-top:15px;
+    font-weight:bold;
 }
 
 footer{
-margin-top:30px;
-padding:20px;
-background:#111;
-color:#aaa;
+    margin-top:30px;
+    background:#111;
+    padding:20px;
+    color:#aaa;
 }
+
 </style>
 </head>
 
@@ -67,7 +81,7 @@ color:#aaa;
 
 <header>
 
-./7EB3DF80-14F9-451F-B47C-B1F40225729A.png
+7EB3DF80-14F9-451F-B47C-B1F40225729A.png
 
 <h1>CF USINAGEM</h1>
 
@@ -82,18 +96,20 @@ Soluções Inteligentes para Processos de Usinagem CNC
 <h2>Calculadora de RPM</h2>
 
 <p>Velocidade de Corte (Vc m/min)</p>
-<input id="vc" type="number">
+<input type="number" id="vc">
 
-<p>Diâmetro (mm)</p>
-<input id="diametro" type="number">
+<br><br>
+
+<p>Diâmetro da Peça (mm)</p>
+<input type="number" id="diametro">
 
 <br><br>
 
 <button onclick="calcularRPM()">
-Calcular RPM
+CALCULAR RPM
 </button>
 
-<h3 id="resultado"></h3>
+<div id="resultado" class="resultado"></div>
 
 </div>
 
@@ -132,11 +148,10 @@ Calcular RPM
 
 <div class="card">
 
-<h2>Sobre</h2>
+<h2>Sobre o Projeto</h2>
 
 <p>
-Sistema desenvolvido por
-<b>Claudio Farley de Oliveira</b>.
+Desenvolvido por <b>Claudio Farley de Oliveira</b>.
 </p>
 
 <p>
@@ -163,18 +178,27 @@ Desenvolvido por Claudio Farley de Oliveira
 
 function calcularRPM(){
 
-let vc =
-parseFloat(
-document.getElementById("vc").value
-);
+let vc = Number(document.getElementById("vc").value);
 
-let d =
-parseFloat(
-document.getElementById("diametro").value
-);
+let diametro = Number(document.getElementById("diametro").value);
 
-let rpm =
-(1000*vc)/(Math.PI*d);
+if(vc <= 0 || diametro <= 0){
 
 document.getElementById("resultado").innerHTML =
-"RPM = " + rpm.toFixed
+"Preencha os valores corretamente.";
+
+return;
+
+}
+
+let rpm = (1000 * vc) / (Math.PI * diametro);
+
+document.getElementById("resultado").innerHTML =
+"RPM Recomendada: <br>" + rpm.toFixed(0) + " RPM";
+
+}
+
+</script>
+
+</body>
+</html>
