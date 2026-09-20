@@ -8,70 +8,87 @@
 <style>
 
 body{
-    margin:0;
-    background:#0a0a0a;
-    color:white;
-    font-family:Arial,sans-serif;
-    text-align:center;
+margin:0;
+background:#0a0a0a;
+color:white;
+font-family:Arial, sans-serif;
 }
 
 header{
-    padding:20px;
+text-align:center;
+padding:20px;
 }
 
 .logo{
-    width:90%;
-    max-width:700px;
-    display:block;
-    margin:auto;
+width:90%;
+max-width:700px;
+display:block;
+margin:auto;
 }
 
 h1{
-    color:#00cc44;
+color:#00cc44;
+text-align:center;
+}
+
+p{
+text-align:center;
+}
+
+nav{
+background:#111;
+padding:15px;
+text-align:center;
+}
+
+nav button{
+background:#00cc44;
+border:none;
+color:white;
+padding:10px 15px;
+margin:5px;
+border-radius:5px;
+font-weight:bold;
+}
+
+.pagina{
+display:none;
+padding:20px;
+}
+
+.ativa{
+display:block;
 }
 
 .card{
-    background:#181818;
-    max-width:900px;
-    margin:20px auto;
-    padding:20px;
-    border-radius:12px;
+background:#181818;
+padding:20px;
+margin:20px auto;
+border-radius:10px;
+max-width:900px;
 }
 
 input{
-    padding:10px;
-    border:none;
-    border-radius:5px;
-    width:150px;
-    text-align:center;
-}
-
-button{
-    background:#00cc44;
-    color:white;
-    border:none;
-    padding:12px 25px;
-    border-radius:5px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-button:hover{
-    background:#00aa38;
-}
-
-.resultado{
-    font-size:22px;
-    color:#00cc44;
-    margin-top:15px;
-    font-weight:bold;
+padding:10px;
+border-radius:5px;
+border:none;
+width:150px;
+text-align:center;
 }
 
 footer{
-    margin-top:30px;
-    background:#111;
-    padding:20px;
-    color:#aaa;
+background:#111;
+padding:20px;
+text-align:center;
+color:#aaa;
+margin-top:20px;
+}
+
+.resultado{
+font-size:22px;
+color:#00cc44;
+margin-top:15px;
+font-weight:bold;
 }
 
 </style>
@@ -81,41 +98,81 @@ footer{
 
 <header>
 
-7EB3DF80-14F9-451F-B47C-B1F40225729A.png
+logo.png
 
 <h1>CF USINAGEM</h1>
 
-<p>
-Soluções Inteligentes para Processos de Usinagem CNC
-</p>
+<p>Soluções Inteligentes para Processos de Usinagem CNC</p>
 
 </header>
+
+<nav>
+
+<button onclick="mostrar('inicio')">Início</button>
+
+<button onclick="mostrar('calculadora')">Calculadora</button>
+
+<button onclick="mostrar('maquinas')">Máquinas</button>
+
+<button onclick="mostrar('materiais')">Materiais</button>
+
+<button onclick="mostrar('ferramentas')">Ferramentas</button>
+
+<button onclick="mostrar('sobre')">Sobre</button>
+
+</nav>
+
+<div id="inicio" class="pagina ativa">
+
+<div class="card">
+
+<h2>Bem-vindo ao CF USINAGEM</h2>
+
+<p>
+
+Sistema desenvolvido para estudo, cálculo e melhoria contínua dos processos de usinagem.
+
+</p>
+
+</div>
+
+</div>
+
+<div id="calculadora" class="pagina">
 
 <div class="card">
 
 <h2>Calculadora de RPM</h2>
 
 <p>Velocidade de Corte (Vc m/min)</p>
-<input type="number" id="vc">
+
+<input id="vc" type="number">
 
 <br><br>
 
 <p>Diâmetro da Peça (mm)</p>
-<input type="number" id="diametro">
+
+<input id="diametro" type="number">
 
 <br><br>
 
 <button onclick="calcularRPM()">
+
 CALCULAR RPM
+
 </button>
 
-<div id="resultado" class="resultado"></div>
+<div id="resultadoRPM" class="resultado"></div>
 
 </div>
 
+</div>
+
+<div id="maquinas" class="pagina">
+
 <div class="card">
 
-<h2>Biblioteca Inicial</h2>
+<h2>Máquinas CNC</h2>
 
 <p>✅ Haas VF-5</p>
 <p>✅ Haas VF-7</p>
@@ -125,7 +182,15 @@ CALCULAR RPM
 <p>✅ Siemens 828D</p>
 <p>✅ Siemens 840D</p>
 
-<hr>
+</div>
+
+</div>
+
+<div id="materiais" class="pagina">
+
+<div class="card">
+
+<h2>Materiais</h2>
 
 <p>✅ SAE 1020</p>
 <p>✅ SAE 1045</p>
@@ -135,32 +200,53 @@ CALCULAR RPM
 <p>✅ Alumínio 6061</p>
 <p>✅ Alumínio 7075</p>
 
-<hr>
+</div>
+
+</div>
+
+<div id="ferramentas" class="pagina">
+
+<div class="card">
+
+<h2>Ferramentas</h2>
 
 <p>✅ Sandvik</p>
 <p>✅ Seco</p>
-<p>✅ Tungaloy</p>
 <p>✅ Walter</p>
 <p>✅ ISCAR</p>
+<p>✅ Tungaloy</p>
 <p>✅ Kennametal</p>
+<p>✅ Mitsubishi Materials</p>
 
 </div>
+
+</div>
+
+<div id="sobre" class="pagina">
 
 <div class="card">
 
 <h2>Sobre o Projeto</h2>
 
 <p>
-Desenvolvido por <b>Claudio Farley de Oliveira</b>.
+
+Desenvolvido por <strong>Claudio Farley de Oliveira</strong>
+
 </p>
 
 <p>
+
 Estudante da FATEC.
+
 </p>
 
 <p>
+
 Projeto criado para fins de estudo e melhoria contínua dos processos de usinagem.
+
 </p>
+
+</div>
 
 </div>
 
@@ -176,29 +262,22 @@ Desenvolvido por Claudio Farley de Oliveira
 
 <script>
 
+function mostrar(id){
+
+let paginas = document.getElementsByClassName("pagina");
+
+for(let i=0;i<paginas.length;i++){
+
+paginas[i].classList.remove("ativa");
+
+}
+
+document.getElementById(id).classList.add("ativa");
+
+}
+
 function calcularRPM(){
 
 let vc = Number(document.getElementById("vc").value);
 
-let diametro = Number(document.getElementById("diametro").value);
-
-if(vc <= 0 || diametro <= 0){
-
-document.getElementById("resultado").innerHTML =
-"Preencha os valores corretamente.";
-
-return;
-
-}
-
-let rpm = (1000 * vc) / (Math.PI * diametro);
-
-document.getElementById("resultado").innerHTML =
-"RPM Recomendada: <br>" + rpm.toFixed(0) + " RPM";
-
-}
-
-</script>
-
-</body>
-</html>
+let d = Number(document.getElementById("diametro").value);
