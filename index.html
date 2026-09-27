@@ -91,47 +91,35 @@ border-radius:10px;
 
 <h2>Torneamento</h2>
 
+
 <p>Material</p>
 
-<select>
-<option>SAE 1020</option>
-<option>SAE 1045</option>
-<option>SAE 4140</option>
-<option>SAE 4340</option>
-<option>8620</option>
-<option>304</option>
-<option>316</option>
+<select id="materialTorno">
+
+<option value="SAE 1020">SAE 1020</option>
+
+<option value="SAE 1045">SAE 1045</option>
+
+<option value="SAE 4140">SAE 4140</option>
+
+<option value="SAE 4340">SAE 4340</option>
+
+<option value="8640">8640</option>
+
+<option value="304">Inox 304</option>
+
+<option value="316">Inox 316</option>
+
 </select>
 
-<p>Tratamento</p>
 
-<select>
-<option>Nenhum</option>
-<option>Recozido</option>
-<option>Normalizado</option>
-<option>Beneficiado</option>
-<option>NTR</option>
-<option>Temperado</option>
-</select>
+<p>Tipo de Corte</p>
 
-<p>Dureza</p>
-
-<select>
-<option>180 HB</option>
-<option>220 HB</option>
-<option>280 HB</option>
-<option>32 HRC</option>
-<option>38 HRC</option>
-<option>45 HRC</option>
-<option>55 HRC</option>
-</select>
-
-<p>Operação</p>
-
-<select>
-<option>Desbaste</option>
-<option>Semiacabamento</option>
-<option>Acabamento</option>
+<select id="tipoCorte">
+<option>Corte Contínuo</option>
+<option>Corte Interrompido</option>
+<option>Carepa de Fundição</option>
+<option>Carepa de Laminação</option>
 </select>
 
 <p>Inserto</p>
@@ -147,7 +135,7 @@ border-radius:10px;
 
 <p>Raio da ponta</p>
 
-<select>
+<select id="raioTorno">
 <option>0.2</option>
 <option>0.4</option>
 <option>0.8</option>
@@ -157,15 +145,16 @@ border-radius:10px;
 
 <p>Diâmetro da peça (mm)</p>
 
-<input type="number">
+<input type="number" id="diametroTorno">
 
 <p>Profundidade RADIAL de corte ap (mm)</p>
 
-<input type="number">
+<input type="number" id="apTorno">
 
-<button>
+<button onclick="analisarTorno()">
 ANALISAR TORNEAMENTO
 </button>
+<div id="resultadoTorno"></div>
 
 </div>
 
@@ -228,9 +217,10 @@ ANALISAR FRESAMENTO
 <option>SAE 1020</option>
 <option>SAE 1045</option>
 <option>SAE 4140</option>
+<option>SAE 4340</option>
 <option>304</option>
 <option>316</option>
-<option>7075</option>
+<option>A36</option>
 </select>
 
 <p>Tipo de Broca</p>
@@ -280,15 +270,13 @@ ANALISAR FURAÇÃO
 </div>
 
 <script>
-
 function mostrarCampos(){
 
 document.getElementById("torno").style.display="none";
 document.getElementById("fresa").style.display="none";
 document.getElementById("furacao").style.display="none";
 
-let op=
-document.getElementById("operacao").value;
+let op = document.getElementById("operacao").value;
 
 if(op=="torno"){
 document.getElementById("torno").style.display="block";
@@ -304,7 +292,319 @@ document.getElementById("furacao").style.display="block";
 
 }
 
+function analisarTorno(){
+
+let material =
+document.getElementById("materialTorno").value;
+
+
+let tipoCorte =
+document.getElementById("tipoCorte").value;
+
+let raio =
+parseFloat(document.getElementById("raioTorno").value);
+
+let diametro =
+parseFloat(document.getElementById("diametroTorno").value);
+
+let ap =
+parseFloat(document.getElementById("apTorno").value);
+
+if(isNaN(diametro) || diametro<=0){
+
+document.getElementById("resultadoTorno").innerHTML =
+"Informe um diâmetro válido.";
+
+return;
+
+}
+
+if(isNaN(ap) || ap<=0){
+
+document.getElementById("resultadoTorno").innerHTML =
+"Informe um AP válido.";
+
+return;
+
+}
+
+let vc;
+let kc11;
+let mc;
+
+switch(material){
+
+case "SAE 1020":
+vc = 250;
+kc11 = 1750;
+mc = 0.22;
+break;
+
+case "SAE 1045":
+vc = 230;
+kc11 = 2000;
+mc = 0.21;
+break;
+
+case "SAE 4140":
+vc = 200;
+kc11 = 2200;
+mc = 0.20;
+break;
+
+case "SAE 4340":
+vc = 190;
+kc11 = 2300;
+mc = 0.20;
+break;
+
+case "8640":
+vc = 200;
+kc11 = 2250;
+mc = 0.20;
+break;
+
+case "304":
+vc = 130;
+kc11 = 2400;
+mc = 0.24;
+break;
+
+case "316":
+vc = 110;
+kc11 = 2500;
+mc = 0.24;
+break;
+
+default:
+vc = 200;
+kc11 = 2000;
+mc = 0.20;
+
+}
+
+if(tipoCorte=="Carepa de Fundição" ||
+tipoCorte=="Carepa de Laminação"){
+
+vc = vc * 0.75;
+
+}
+
+if(tipoCorte=="Corte Interrompido"){
+
+vc = vc * 1.20;
+
+}
+
+let avanco = 0.20;
+let avancoMax = 0.15;
+
+if(raio==0.2){
+avanco = 0.10;
+avancoMax = 0.15;
+}
+
+if(raio==0.4){
+avanco = 0.20;
+avancoMax = 0.30;
+}
+
+if(raio==0.8){
+avanco = 0.35;
+avancoMax = 0.50;
+}
+
+if(raio==1.2){
+avanco = 0.45;
+avancoMax = 0.60;
+}
+
+if(raio==1.6){
+avanco = 0.60;
+avancoMax = 0.80;
+}
+
+let rpm =
+(1000 * vc) /
+(Math.PI * diametro);
+
+let vf = rpm * avanco;
+
+let h = avanco;
+
+let kc =
+kc11 *
+Math.pow(h,-mc);
+
+let areaCavaco =
+ap * avanco;
+
+let fc =
+kc * areaCavaco;
+
+let potenciaKW =
+(fc * vc) / 60000;
+
+let potenciaCV =
+potenciaKW * 1.36;
+
+let torque =
+(9550 * potenciaKW) / rpm;
+
+let classe = "ISO P25";
+
+if(tipoCorte=="Corte Interrompido"){
+
+classe = "ISO P35";
+
+}
+
+document.getElementById("resultadoTorno").innerHTML =
+
+`
+
+<h2>RESULTADO CF USINAGEM</h2>
+
+<p><b>Material:</b> ${material}</p>
+
+
+<p><b>Tipo de Corte:</b> ${tipoCorte}</p>
+
+<hr>
+
+<p><b>Velocidade de Corte (Vc):</b> ${vc.toFixed(0)} m/min</p>
+
+<p><b>Rotação:</b> ${rpm.toFixed(0)} rpm</p>
+
+<p><b>Avanço Recomendado:</b> ${avanco.toFixed(2)} mm/rot</p>
+
+<p><b>Avanço Máximo:</b> ${avancoMax.toFixed(2)} mm/rot</p>
+
+<p><b>Avanço Linear:</b> ${vf.toFixed(0)} mm/min</p>
+
+<p><b>Espessura Média de Cavaco:</b> ${h.toFixed(2)} mm</p>
+
+<hr>
+
+<p><b>Kc Calculado:</b> ${kc.toFixed(0)} N/mm²</p>
+
+<p><b>Força de Corte:</b> ${fc.toFixed(0)} N</p>
+
+<p><b>Potência de Corte:</b> ${potenciaKW.toFixed(1)} kW</p>
+
+<p><b>Potência de Corte:</b> ${potenciaCV.toFixed(1)} CV</p>
+
+<p><b>Torque:</b> ${torque.toFixed(0)} Nm</p>
+
+<hr>
+
+<p><b>Classe Recomendada:</b> ${classe}</p>
+
+`;
+
+if(tipoCorte=="Corte Interrompido"){
+
+document.getElementById("resultadoTorno").innerHTML +=
+
+`
+
+<hr>
+
+<h3>CORTE INTERROMPIDO</h3>
+
+<p>
+Recomenda-se classe ISO P35.
+</p>
+
+<p>
+Priorizar substrato mais tenaz e maior teor de cobalto.
+</p>
+
+<p>
+Utilizar quebra-cavaco para média usinagem ou desbaste.
+</p>
+
+<p>
+A velocidade foi corrigida em +20%.
+</p>
+
+`;
+
+}
+
+document.getElementById("resultadoTorno").innerHTML +=
+
+`
+
+<hr>
+
+<h3>OBSERVAÇÕES TÉCNICAS</h3>
+
+<p>
+A velocidade de corte apresentada é um valor de referência.
+</p>
+
+<p>
+Dependendo da rigidez da máquina, fixação da peça,
+refrigeração e estabilidade do processo,
+a velocidade pode variar aproximadamente ±20%.
+</p>
+
+<p>
+Para acabamento é comum trabalhar até aproximadamente 20% acima da velocidade de referência.
+</p>
+
+<p>
+Para materiais tratados termicamente,
+beneficiados ou temperados,
+recomenda-se iniciar aproximadamente 20% abaixo da velocidade apresentada.
+</p>
+
+<p>
+Para materiais com carepa, superfície laminada ou trefilada,
+recomenda-se iniciar com aproximadamente 25% abaixo da velocidade de referência.
+</p>
+
+<p>
+O avanço máximo recomendado corresponde aproximadamente a 75% do raio efetivo da ponta da pastilha.
+</p>
+
+<p>
+Para Calculo de porcentagem dividir o valor por 100 e multiplicar pelo valor desejado, se for 20% a mais multiplicar por 120 se for a menos multiplicar por 80.
+</p>
+
+<p>
+Classe P25: uso geral e média usinagem.
+</p>
+
+<p>
+Classe P35: corte interrompido e aplicações com impacto.
+</p>
+
+<p>
+Refrigeração com óleo solúvel é recomendada para maior estabilidade térmica,
+melhor evacuação do cavaco e aumento da vida útil da ferramenta.
+</p>
+
+<hr>
+
+<h3>IMPORTANTE</h3>
+
+<p>
+A potência apresentada refere-se exclusivamente à potência de corte necessária para remoção de material.
+</p>
+
+<p>
+Não considera peso da peça, placa, castanhas,
+contraponto, perdas mecânicas,
+rendimento do spindle ou inércia do conjunto girante.
+</p>
+
+`;
+
+}
+
 </script>
 
 </body>
-</html>
+</html>>
