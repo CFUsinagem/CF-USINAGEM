@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CF USINAGEM</title>
+
+<style>
+
+body{
+background:#0d0d0d;
+color:white;
+font-family:Arial;
+text-align:center;
+margin:0;
+}
+
+.logo{
+max-width:700px;
+width:90%;
+margin-top:20px;
+}
+
+.caixa{
+background:#181818;
+max-width:900px;
+margin:20px auto;
+padding:20px;
+border-radius:10px;
+}
+
+select,input{
+padding:10px;
+width:250px;
+margin:5px;
+}
+
+button{
+background:#00cc44;
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:5px;
+font-weight:bold;
+}
+
+h1{
+color:#00cc44;
+}
+
+#torno,#fresa,#furacao{
+display:none;
+}
+
+.resultado{
+background:#111;
+padding:20px;
+margin-top:20px;
+border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<img src="Logo.png" class="logo">
+
+<h1>CF USINAGEM</h1>
+
+<div class="caixa">
+
+<h2>Qual operação?</h2>
+
+<select id="operacao" onchange="mostrarCampos()">
+
+<option value="">Selecione</option>
+
+<option value="torno">Torneamento</option>
+
+<option value="fresa">Fresamento</option>
+
+<option value="furacao">Furação</option>
+
+</select>
+
+</div>
+
+<div id="torno" class="caixa">
+
+<h2>Torneamento</h2>
+
+<p>Material</p>
+
+<select>
+<option>SAE 1020</option>
+<option>SAE 1045</option>
+<option>SAE 4140</option>
+<option>SAE 4340</option>
+<option>8620</option>
+<option>304</option>
+<option>316</option>
+</select>
+
+<p>Tratamento</p>
+
+<select>
+<option>Nenhum</option>
+<option>Recozido</option>
+<option>Normalizado</option>
+<option>Beneficiado</option>
+<option>NTR</option>
+<option>Temperado</option>
+</select>
+
+<p>Dureza</p>
+
+<select>
+<option>180 HB</option>
+<option>220 HB</option>
+<option>280 HB</option>
+<option>32 HRC</option>
+<option>38 HRC</option>
+<option>45 HRC</option>
+<option>55 HRC</option>
+</select>
+
+<p>Operação</p>
+
+<select>
+<option>Desbaste</option>
+<option>Semiacabamento</option>
+<option>Acabamento</option>
+</select>
+
+<p>Inserto</p>
+
+<select>
+<option>CNMG</option>
+<option>DNMG</option>
+<option>VNMG</option>
+<option>WNMG</option>
+<option>TNMG</option>
+<option>SNMG</option>
+</select>
+
+<p>Raio da ponta</p>
+
+<select>
+<option>0.2</option>
+<option>0.4</option>
+<option>0.8</option>
+<option>1.2</option>
+<option>1.6</option>
+</select>
+
+<p>Diâmetro da peça (mm)</p>
+
+<input type="number">
+
+<p>Profundidade RADIAL de corte ap (mm)</p>
+
+<input type="number">
+
+<button>
+ANALISAR TORNEAMENTO
+</button>
+
+</div>
+
+<div id="fresa" class="caixa">
+
+<h2>Fresamento</h2>
+
+<p>Material</p>
+
+<select>
+<option>SAE 1020</option>
+<option>SAE 1045</option>
+<option>SAE 4140</option>
+<option>304</option>
+<option>316</option>
+<option>7075</option>
+</select>
+
+<p>Tipo de Fresa</p>
+
+<select>
+
+<option>Fresa de Topo</option>
+
+<option>Fresa Toroidal</option>
+
+<option>Fresa Girassol</option>
+
+</select>
+
+<p>Diâmetro da ferramenta</p>
+
+<input type="number">
+
+<p>Número de dentes</p>
+
+<input type="number">
+
+<p>ap (mm)</p>
+
+<input type="number">
+
+<p>ae (mm)</p>
+
+<input type="number">
+
+<button>
+ANALISAR FRESAMENTO
+</button>
+
+</div>
+
+<div id="furacao" class="caixa">
+
+<h2>Furação</h2>
+
+<p>Material</p>
+
+<select>
+<option>SAE 1020</option>
+<option>SAE 1045</option>
+<option>SAE 4140</option>
+<option>304</option>
+<option>316</option>
+<option>7075</option>
+</select>
+
+<p>Tipo de Broca</p>
+
+<select>
+
+<option>Broca HSS</option>
+
+<option>Broca Metal Duro</option>
+
+<option>T-Max</option>
+
+<option>Intercambiável</option>
+
+<option>Canhão</option>
+
+</select>
+
+<p>Diâmetro da broca</p>
+
+<input type="number">
+
+<p>Profundidade do furo</p>
+
+<input type="number">
+
+<p>Pressão de refrigeração</p>
+
+<select>
+
+<option>Sem refrigeração</option>
+
+<option>20 bar</option>
+
+<option>40 bar</option>
+
+<option>70 bar</option>
+
+<option>100 bar</option>
+
+</select>
+
+<button>
+ANALISAR FURAÇÃO
+</button>
+
+</div>
+
+<script>
+
+function mostrarCampos(){
+
+document.getElementById("torno").style.display="none";
+document.getElementById("fresa").style.display="none";
+document.getElementById("furacao").style.display="none";
+
+let op=
+document.getElementById("operacao").value;
+
+if(op=="torno"){
+document.getElementById("torno").style.display="block";
+}
+
+if(op=="fresa"){
+document.getElementById("fresa").style.display="block";
+}
+
+if(op=="furacao"){
+document.getElementById("furacao").style.display="block";
+}
+
+}
+
+</script>
+
+</body>
+</html>
