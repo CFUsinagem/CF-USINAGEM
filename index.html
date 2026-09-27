@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,174 +9,602 @@
 <style>
 
 body{
-background:#0b0b0b;
+background:#0d0d0d;
 color:white;
-font-family:Arial, sans-serif;
-margin:0;
-padding:0;
+font-family:Arial;
 text-align:center;
-}
-
-header{
-padding:20px;
+margin:0;
 }
 
 .logo{
-width:95%;
-max-width:800px;
-display:block;
-margin:auto;
+max-width:700px;
+width:90%;
+margin-top:20px;
 }
 
-h1{
-color:#00d94f;
-}
-
-.card{
+.caixa{
 background:#181818;
-padding:20px;
-margin:20px auto;
 max-width:900px;
+margin:20px auto;
+padding:20px;
 border-radius:10px;
 }
 
-input{
-width:180px;
+select,input{
 padding:10px;
+width:250px;
 margin:5px;
-border:none;
-border-radius:5px;
-text-align:center;
 }
 
 button{
-background:#00d94f;
+background:#00cc44;
 color:white;
+padding:10px 20px;
 border:none;
-padding:12px 20px;
 border-radius:5px;
 font-weight:bold;
-cursor:pointer;
 }
 
-button:hover{
-background:#00b840;
+h1{
+color:#00cc44;
+}
+
+#torno,#fresa,#furacao{
+display:none;
 }
 
 .resultado{
-margin-top:15px;
-font-size:22px;
-font-weight:bold;
-color:#00d94f;
-}
-
-footer{
 background:#111;
 padding:20px;
-margin-top:30px;
-color:#aaa;
+margin-top:20px;
+border-radius:10px;
 }
 
 </style>
-
 </head>
 
 <body>
-
-<header>
 
 <img src="Logo.png" class="logo">
 
 <h1>CF USINAGEM</h1>
 
+<div class="caixa">
+
+<h2>Qual operação?</h2>
+
+<select id="operacao" onchange="mostrarCampos()">
+
+<option value="">Selecione</option>
+
+<option value="torno">Torneamento</option>
+
+<option value="fresa">Fresamento</option>
+
+<option value="furacao">Furação</option>
+
+</select>
+
+</div>
+
+<div id="torno" class="caixa">
+
+<h2>Torneamento</h2>
+
+
+<p>Material</p>
+
+<select id="materialTorno">
+
+<option value="SAE 1020">SAE 1020</option>
+
+<option value="SAE 1045">SAE 1045</option>
+
+<option value="SAE 4140">SAE 4140</option>
+
+<option value="SAE 4340">SAE 4340</option>
+
+<option value="8640">8640</option>
+
+<option value="304">Inox 304</option>
+
+<option value="316">Inox 316</option>
+
+</select>
+
+
+<p>Tipo de Corte</p>
+
+<select id="tipoCorte">
+<option>Corte Contínuo</option>
+<option>Corte Interrompido</option>
+<option>Carepa de Fundição</option>
+<option>Carepa de Laminação</option>
+</select>
+
+<p>Inserto</p>
+
+<select>
+<option>CNMG</option>
+<option>DNMG</option>
+<option>VNMG</option>
+<option>WNMG</option>
+<option>TNMG</option>
+<option>SNMG</option>
+</select>
+
+<p>Raio da ponta</p>
+
+<select id="raioTorno">
+<option>0.2</option>
+<option>0.4</option>
+<option>0.8</option>
+<option>1.2</option>
+<option>1.6</option>
+</select>
+
+<p>Diâmetro da peça (mm)</p>
+
+<input type="number" id="diametroTorno">
+
+<p>Profundidade RADIAL de corte ap (mm)</p>
+
+<input type="number" id="apTorno">
+
+<button onclick="analisarTorno()">
+ANALISAR TORNEAMENTO
+</button>
+<div id="resultadoTorno"></div>
+
+</div>
+
+<div id="fresa" class="caixa">
+
+<h2>Fresamento</h2>
+
+<p>Material</p>
+
+<select>
+<option>SAE 1020</option>
+<option>SAE 1045</option>
+<option>SAE 4140</option>
+<option>304</option>
+<option>316</option>
+<option>7075</option>
+</select>
+
+<p>Tipo de Fresa</p>
+
+<select>
+
+<option>Fresa de Topo</option>
+
+<option>Fresa Toroidal</option>
+
+<option>Fresa Girassol</option>
+
+</select>
+
+<p>Diâmetro da ferramenta</p>
+
+<input type="number">
+
+<p>Número de dentes</p>
+
+<input type="number">
+
+<p>ap (mm)</p>
+
+<input type="number">
+
+<p>ae (mm)</p>
+
+<input type="number">
+
+<button>
+ANALISAR FRESAMENTO
+</button>
+
+</div>
+
+<div id="furacao" class="caixa">
+
+<h2>Furação</h2>
+
+<p>Material</p>
+
+<select>
+<option>SAE 1020</option>
+<option>SAE 1045</option>
+<option>SAE 4140</option>
+<option>SAE 4340</option>
+<option>304</option>
+<option>316</option>
+<option>A36</option>
+</select>
+
+<p>Tipo de Broca</p>
+
+<select>
+
+<option>Broca HSS</option>
+
+<option>Broca Metal Duro</option>
+
+<option>T-Max</option>
+
+<option>Intercambiável</option>
+
+<option>Canhão</option>
+
+</select>
+
+<p>Diâmetro da broca</p>
+
+<input type="number">
+
+<p>Profundidade do furo</p>
+
+<input type="number">
+
+<p>Pressão de refrigeração</p>
+
+<select>
+
+<option>Sem refrigeração</option>
+
+<option>20 bar</option>
+
+<option>40 bar</option>
+
+<option>70 bar</option>
+
+<option>100 bar</option>
+
+</select>
+
+<button>
+ANALISAR FURAÇÃO
+</button>
+
+</div>
+
+<script>
+function mostrarCampos(){
+
+document.getElementById("torno").style.display="none";
+document.getElementById("fresa").style.display="none";
+document.getElementById("furacao").style.display="none";
+
+let op = document.getElementById("operacao").value;
+
+if(op=="torno"){
+document.getElementById("torno").style.display="block";
+}
+
+if(op=="fresa"){
+document.getElementById("fresa").style.display="block";
+}
+
+if(op=="furacao"){
+document.getElementById("furacao").style.display="block";
+}
+
+}
+
+function analisarTorno(){
+
+let material =
+document.getElementById("materialTorno").value;
+
+
+let tipoCorte =
+document.getElementById("tipoCorte").value;
+
+let raio =
+parseFloat(document.getElementById("raioTorno").value);
+
+let diametro =
+parseFloat(document.getElementById("diametroTorno").value);
+
+let ap =
+parseFloat(document.getElementById("apTorno").value);
+
+if(isNaN(diametro) || diametro<=0){
+
+document.getElementById("resultadoTorno").innerHTML =
+"Informe um diâmetro válido.";
+
+return;
+
+}
+
+if(isNaN(ap) || ap<=0){
+
+document.getElementById("resultadoTorno").innerHTML =
+"Informe um AP válido.";
+
+return;
+
+}
+
+let vc;
+let kc11;
+let mc;
+
+switch(material){
+
+case "SAE 1020":
+vc = 250;
+kc11 = 1750;
+mc = 0.22;
+break;
+
+case "SAE 1045":
+vc = 230;
+kc11 = 2000;
+mc = 0.21;
+break;
+
+case "SAE 4140":
+vc = 200;
+kc11 = 2200;
+mc = 0.20;
+break;
+
+case "SAE 4340":
+vc = 190;
+kc11 = 2300;
+mc = 0.20;
+break;
+
+case "8640":
+vc = 200;
+kc11 = 2250;
+mc = 0.20;
+break;
+
+case "304":
+vc = 130;
+kc11 = 2400;
+mc = 0.24;
+break;
+
+case "316":
+vc = 110;
+kc11 = 2500;
+mc = 0.24;
+break;
+
+default:
+vc = 200;
+kc11 = 2000;
+mc = 0.20;
+
+}
+
+if(tipoCorte=="Carepa de Fundição" ||
+tipoCorte=="Carepa de Laminação"){
+
+vc = vc * 0.75;
+
+}
+
+if(tipoCorte=="Corte Interrompido"){
+
+vc = vc * 1.20;
+
+}
+
+let avanco = 0.20;
+let avancoMax = 0.15;
+
+if(raio==0.2){
+avanco = 0.10;
+avancoMax = 0.15;
+}
+
+if(raio==0.4){
+avanco = 0.20;
+avancoMax = 0.30;
+}
+
+if(raio==0.8){
+avanco = 0.35;
+avancoMax = 0.50;
+}
+
+if(raio==1.2){
+avanco = 0.45;
+avancoMax = 0.60;
+}
+
+if(raio==1.6){
+avanco = 0.60;
+avancoMax = 0.80;
+}
+
+let rpm =
+(1000 * vc) /
+(Math.PI * diametro);
+
+let vf = rpm * avanco;
+
+let h = avanco;
+
+let kc =
+kc11 *
+Math.pow(h,-mc);
+
+let areaCavaco =
+ap * avanco;
+
+let fc =
+kc * areaCavaco;
+
+let potenciaKW =
+(fc * vc) / 60000;
+
+let potenciaCV =
+potenciaKW * 1.36;
+
+let torque =
+(9550 * potenciaKW) / rpm;
+
+let classe = "ISO P25";
+
+if(tipoCorte=="Corte Interrompido"){
+
+classe = "ISO P35";
+
+}
+
+document.getElementById("resultadoTorno").innerHTML =
+
+`
+
+<h2>RESULTADO CF USINAGEM</h2>
+
+<p><b>Material:</b> ${material}</p>
+
+
+<p><b>Tipo de Corte:</b> ${tipoCorte}</p>
+
+<hr>
+
+<p><b>Velocidade de Corte (Vc):</b> ${vc.toFixed(0)} m/min</p>
+
+<p><b>Rotação:</b> ${rpm.toFixed(0)} rpm</p>
+
+<p><b>Avanço Recomendado:</b> ${avanco.toFixed(2)} mm/rot</p>
+
+<p><b>Avanço Máximo:</b> ${avancoMax.toFixed(2)} mm/rot</p>
+
+<p><b>Avanço Linear:</b> ${vf.toFixed(0)} mm/min</p>
+
+<p><b>Espessura Média de Cavaco:</b> ${h.toFixed(2)} mm</p>
+
+<hr>
+
+<p><b>Kc Calculado:</b> ${kc.toFixed(0)} N/mm²</p>
+
+<p><b>Força de Corte:</b> ${fc.toFixed(0)} N</p>
+
+<p><b>Potência de Corte:</b> ${potenciaKW.toFixed(1)} kW</p>
+
+<p><b>Potência de Corte:</b> ${potenciaCV.toFixed(1)} CV</p>
+
+<p><b>Torque:</b> ${torque.toFixed(0)} Nm</p>
+
+<hr>
+
+<p><b>Classe Recomendada:</b> ${classe}</p>
+
+`;
+
+if(tipoCorte=="Corte Interrompido"){
+
+document.getElementById("resultadoTorno").innerHTML +=
+
+`
+
+<hr>
+
+<h3>CORTE INTERROMPIDO</h3>
+
 <p>
-Soluções Inteligentes para Processos de Usinagem CNC
+Recomenda-se classe ISO P35.
 </p>
 
-</header>
+<p>
+Priorizar substrato mais tenaz e maior teor de cobalto.
+</p>
 
-<div class="card">
+<p>
+Utilizar quebra-cavaco para média usinagem ou desbaste.
+</p>
 
-<h2>Calculadora de RPM</h2>
+<p>
+A velocidade foi corrigida em +20%.
+</p>
 
-<p>Velocidade de Corte (Vc m/min)</p>
+`;
 
-<input type="number" id="vc">
+}
 
-<br>
+document.getElementById("resultadoTorno").innerHTML +=
 
-<p>Diâmetro da Peça (mm)</p>
+`
 
-<input type="number" id="diametro">
+<hr>
 
-<br><br>
+<h3>OBSERVAÇÕES TÉCNICAS</h3>
 
-<button onclick="calcularRPM()">
+<p>
+A velocidade de corte apresentada é um valor de referência.
+</p>
 
-CALCULAR RPM
+<p>
+Dependendo da rigidez da máquina, fixação da peça,
+refrigeração e estabilidade do processo,
+a velocidade pode variar aproximadamente ±20%.
+</p>
 
-</button>
+<p>
+Para acabamento é comum trabalhar até aproximadamente 20% acima da velocidade de referência.
+</p>
 
-<div id="rpmResultado" class="resultado"></div>
+<p>
+Para materiais tratados termicamente,
+beneficiados ou temperados,
+recomenda-se iniciar aproximadamente 20% abaixo da velocidade apresentada.
+</p>
 
-</div>
+<p>
+Para materiais com carepa, superfície laminada ou trefilada,
+recomenda-se iniciar com aproximadamente 25% abaixo da velocidade de referência.
+</p>
 
-<div class="card">
+<p>
+O avanço máximo recomendado corresponde aproximadamente a 75% do raio efetivo da ponta da pastilha.
+</p>
 
-<h2>Calculadora de Avanço</h2>
+<p>
+Para Calculo de porcentagem dividir o valor por 100 e multiplicar pelo valor desejado, se for 20% a mais multiplicar por 120 se for a menos multiplicar por 80.
+</p>
 
-<p>Avanço por Volta (mm/rev)</p>
+<p>
+Classe P25: uso geral e média usinagem.
+</p>
 
-<input type="number" id="f" step="0.01">
+<p>
+Classe P35: corte interrompido e aplicações com impacto.
+</p>
 
-<br>
+<p>
+Refrigeração com óleo solúvel é recomendada para maior estabilidade térmica,
+melhor evacuação do cavaco e aumento da vida útil da ferramenta.
+</p>
 
-<p>RPM</p>
+<hr>
 
-<input type="number" id="rpm">
+<h3>IMPORTANTE</h3>
 
-<br><br>
+<p>
+A potência apresentada refere-se exclusivamente à potência de corte necessária para remoção de material.
+</p>
 
-<button onclick="calcularAvanco()">
+<p>
+Não considera peso da peça, placa, castanhas,
+contraponto, perdas mecânicas,
+rendimento do spindle ou inércia do conjunto girante.
+</p>
 
-CALCULAR AVANÇO
+`;
 
-</button>
+}
 
-<div id="avancoResultado" class="resultado"></div>
+</script>
 
-</div>
-
-<div class="card">
-
-<h2>Calculadora de Tempo de Usinagem</h2>
-
-<p>Comprimento do Passe (mm)</p>
-
-<input type="number" id="comprimento">
-
-<br>
-
-<p>Avanço (mm/min)</p>
-
-<input type="number" id="vf">
-
-<br><br>
-
-<button onclick="calcularTempo()">
-
-CALCULAR TEMPO
-
-</button>
-
-<div id="tempoResultado" class="resultado"></div>
-
-</div>
-
-<div class="card">
-
-<h2>Máquinas CNC</h2>
-
-<p>✅ Haas VF-5</p>
-<p>✅ Haas VF-7</p>
-<p>✅ Haas
+</body>
+</html>>
